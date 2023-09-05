@@ -8,9 +8,10 @@ const INITIAL_COLOR = "rgb(233, 196, 106)";
 const COMPARISON_COLOR = "rgb(231, 111, 81)";
 const PIVOT_COLOR = "rgb(0, 150, 199)";
 const SORTED_COLOR = "rgb(42, 157, 143)";
+const SWAP_COLOR = "rgb(244, 162, 97)";
 
 const SortingViz = () => {
-  const size = 10;
+  const size = 100;
   const [originalArray, setOriginalArray] = useState([]);
   const [PRIMARY_COLOR, setPrimaryColor] = useState(INITIAL_COLOR);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -136,35 +137,52 @@ const SortingViz = () => {
     const high = arr.length - 1;
     const changeOrder = [];
     quickSort(arr, low, high, changeOrder);
+    const sortedBars = [];
+
     for (let i = 0; i < changeOrder.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
+
       if (changeOrder[i][2] === "pivot") {
         let firstIdx = changeOrder[i][0];
         let secondIdx = changeOrder[i][1];
-        arrayBars[firstIdx].style.backgroundColor = COMPARISON_COLOR;
-        arrayBars[secondIdx].style.backgroundColor = COMPARISON_COLOR;
+        if (firstIdx === secondIdx) {
+          sortedBars.push(firstIdx);
+          arrayBars[firstIdx].style.backgroundColor = SORTED_COLOR;
+          continue;
+        }
+        arrayBars[firstIdx].style.backgroundColor = SWAP_COLOR;
+        arrayBars[secondIdx].style.backgroundColor = SWAP_COLOR;
+        let temp = arrOrg[firstIdx];
+        arrOrg[firstIdx] = arrOrg[secondIdx];
+        arrOrg[secondIdx] = temp;
+        sortedBars.push(firstIdx);
+        setOriginalArray([...arrOrg]);
+        await timer(delay);
+        arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
+      } else if (changeOrder[i][2] === "swap") {
+        let firstIdx = changeOrder[i][0];
+        let secondIdx = changeOrder[i][1];
+        if (firstIdx === secondIdx) continue;
+        arrayBars[firstIdx].style.backgroundColor = SWAP_COLOR;
+        arrayBars[secondIdx].style.backgroundColor = SWAP_COLOR;
         let temp = arrOrg[firstIdx];
         arrOrg[firstIdx] = arrOrg[secondIdx];
         arrOrg[secondIdx] = temp;
         setOriginalArray([...arrOrg]);
         await timer(delay);
-        arrayBars[secondIdx].style.backgroundColor = SORTED_COLOR;
         arrayBars[firstIdx].style.backgroundColor = PRIMARY_COLOR;
+        arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
       } else {
         let firstIdx = changeOrder[i][0];
         let secondIdx = changeOrder[i][1];
-        let pivotBarIdx = changeOrder[i][2];
         arrayBars[firstIdx].style.backgroundColor = COMPARISON_COLOR;
-        arrayBars[secondIdx].style.backgroundColor = COMPARISON_COLOR;
-        arrayBars[pivotBarIdx].style.backgroundColor = PIVOT_COLOR;
-        let temp = arrOrg[firstIdx];
-        arrOrg[firstIdx] = arrOrg[secondIdx];
-        arrOrg[secondIdx] = temp;
-        setOriginalArray([...arrOrg]);
+        arrayBars[secondIdx].style.backgroundColor = PIVOT_COLOR;
         await timer(delay);
-        arrayBars[pivotBarIdx].style.backgroundColor = PRIMARY_COLOR;
         arrayBars[firstIdx].style.backgroundColor = PRIMARY_COLOR;
-        arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
+        arrayBars[secondIdx].style.backgroundColor = PIVOT_COLOR;
+      }
+      for (let k = 0; k < sortedBars.length; k++) {
+        arrayBars[sortedBars[k]].style.backgroundColor = SORTED_COLOR;
       }
     }
     setPrimaryColor(SORTED_COLOR);
