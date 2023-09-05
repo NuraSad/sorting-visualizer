@@ -6,19 +6,22 @@ function maxHeapify(arr, n, i, changeOrder) {
 
   //If left child is larger than root
   if (l < n && arr[l] > arr[max]) {
+    changeOrder.push([l, max]);
     max = l;
   }
 
   // If right child is larger than smallest so far
   if (r < n && arr[r] > arr[max]) {
+    changeOrder.push([r, max]);
     max = r;
   }
-  changeOrder.push([i, max]);
+
   // If larger is not root
   if (max !== i) {
     let temp = arr[i];
     arr[i] = arr[max];
     arr[max] = temp;
+    changeOrder.push([i, max, "swap"]);
     // Recursively heapify the affected sub-tree
     maxHeapify(arr, n, max, changeOrder);
   }
@@ -39,7 +42,7 @@ function heapSort(arr) {
     let temp = arr[0];
     arr[0] = arr[i];
     arr[i] = temp;
-    changeOrder.push([0, i]);
+    changeOrder.push([0, i, "final"]);
 
     // call max heapify on the reduced heap
     maxHeapify(arr, i, 0, changeOrder);

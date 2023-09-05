@@ -11,11 +11,11 @@ const SORTED_COLOR = "rgb(42, 157, 143)";
 const SWAP_COLOR = "rgb(255, 112, 166)";
 
 const SortingViz = () => {
-  const size = 100;
+  const size = 10;
   const [originalArray, setOriginalArray] = useState([]);
   const [PRIMARY_COLOR, setPrimaryColor] = useState(INITIAL_COLOR);
   const [isDisabled, setIsDisabled] = useState(false);
-  const delay = 100;
+  const delay = 800;
 
   const makeNewArray = (size) => {
     setPrimaryColor(INITIAL_COLOR);
@@ -195,20 +195,40 @@ const SortingViz = () => {
     setIsDisabled(true);
     const arr = arrOrg.slice();
     const changeOrder = heapSort(arr);
+    console.log(arrOrg, changeOrder);
     for (let i = 0; i < changeOrder.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
       const firstBar = changeOrder[i][0];
       const secondBar = changeOrder[i][1];
-      arrayBars[firstBar].style.backgroundColor = COMPARISON_COLOR;
-      arrayBars[secondBar].style.backgroundColor = COMPARISON_COLOR;
-      let temp = arrOrg[firstBar];
-      arrOrg[firstBar] = arrOrg[secondBar];
-      arrOrg[secondBar] = temp;
-      setOriginalArray([...arrOrg]);
-      // Wait delay amount in ms before continuing, give browser time to render last update
-      await timer(delay);
-      arrayBars[firstBar].style.backgroundColor = PRIMARY_COLOR;
-      arrayBars[secondBar].style.backgroundColor = PRIMARY_COLOR;
+      if (changeOrder[i][2] === "swap") {
+        arrayBars[firstBar].style.backgroundColor = SWAP_COLOR;
+        arrayBars[secondBar].style.backgroundColor = SWAP_COLOR;
+        let temp = arrOrg[firstBar];
+        arrOrg[firstBar] = arrOrg[secondBar];
+        arrOrg[secondBar] = temp;
+        setOriginalArray([...arrOrg]);
+        await timer(delay);
+        arrayBars[firstBar].style.backgroundColor = PRIMARY_COLOR;
+        arrayBars[secondBar].style.backgroundColor = PRIMARY_COLOR;
+      } else if (changeOrder[i][2] === "final") {
+        arrayBars[firstBar].style.backgroundColor = SWAP_COLOR;
+        arrayBars[secondBar].style.backgroundColor = SWAP_COLOR;
+        await timer(delay);
+        let temp = arrOrg[firstBar];
+        arrOrg[firstBar] = arrOrg[secondBar];
+        arrOrg[secondBar] = temp;
+        setOriginalArray([...arrOrg]);
+        arrayBars[secondBar].style.backgroundColor = SORTED_COLOR;
+        arrayBars[firstBar].style.backgroundColor = SWAP_COLOR;
+        await timer(delay);
+        arrayBars[firstBar].style.backgroundColor = PRIMARY_COLOR;
+      } else {
+        arrayBars[firstBar].style.backgroundColor = COMPARISON_COLOR;
+        arrayBars[secondBar].style.backgroundColor = COMPARISON_COLOR;
+        await timer(delay);
+        arrayBars[firstBar].style.backgroundColor = PRIMARY_COLOR;
+        arrayBars[secondBar].style.backgroundColor = PRIMARY_COLOR;
+      }
     }
     setPrimaryColor(SORTED_COLOR);
     setIsDisabled(false);
