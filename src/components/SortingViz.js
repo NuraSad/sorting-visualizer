@@ -8,7 +8,7 @@ const INITIAL_COLOR = "rgb(233, 196, 106)";
 const COMPARISON_COLOR = "rgb(231, 111, 81)";
 const PIVOT_COLOR = "rgb(0, 150, 199)";
 const SORTED_COLOR = "rgb(42, 157, 143)";
-const SWAP_COLOR = "rgb(244, 162, 97)";
+const SWAP_COLOR = "rgb(255, 112, 166)";
 
 const SortingViz = () => {
   const size = 100;
