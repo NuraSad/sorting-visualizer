@@ -39,12 +39,12 @@ function partition2(arr, low, high, changeOrder) {
   for (let j = low; j <= high - 1; j++) {
     if (arr[j] < pivot) {
       i++;
-      changeOrder.push(i, j, high);
+      changeOrder.push([i, j, high]);
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
   }
   // show that pivot in its final place;
-  changeOrder.push(i + 1, high, "pivot");
+  changeOrder.push([i + 1, high, "pivot"]);
   [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
 
   return i + 1;
