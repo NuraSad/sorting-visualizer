@@ -11,11 +11,11 @@ const SORTED_COLOR = "rgb(42, 157, 143)";
 const SWAP_COLOR = "rgb(255, 112, 166)";
 
 const SortingViz = () => {
-  const size = 10;
+  const size = 100;
   const [originalArray, setOriginalArray] = useState([]);
   const [PRIMARY_COLOR, setPrimaryColor] = useState(INITIAL_COLOR);
   const [isDisabled, setIsDisabled] = useState(false);
-  const delay = 800;
+  const delay = 100;
 
   const makeNewArray = (size) => {
     setPrimaryColor(INITIAL_COLOR);
