@@ -96,12 +96,14 @@ const SortingViz = () => {
       if (sorted === false) {
         break;
       }
+
+      arrayBars[i - 1].style.backgroundColor = SORTED_COLOR;
     }
     setPrimaryColor(SORTED_COLOR);
     setIsDisabled(false);
   };
 
-  //   const startQuickSort = async (arrOrg, delay) => {
+  //   const startQuickSort2 = async (arrOrg, delay) => {
   //     setIsDisabled(true);
   //     const arr = arrOrg.slice();
   //     const low = 0;

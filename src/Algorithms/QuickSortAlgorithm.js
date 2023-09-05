@@ -1,4 +1,4 @@
-function partition(arr, low, high, changeOrder) {
+function partition2(arr, low, high, changeOrder) {
   // let midIdx = Math.floor((low+high)/2);
   // let pivot = arr[midIdx];
   let pivot = arr[low];
@@ -32,7 +32,7 @@ function partition(arr, low, high, changeOrder) {
   }
 }
 
-function partition2(arr, low, high, changeOrder) {
+function partition(arr, low, high, changeOrder) {
   let pivot = arr[high];
   let i = low - 1;
 
@@ -55,7 +55,7 @@ function quickSort(arr, low, high, changeOrder) {
   if (low < high) {
     /* pi is partitioning index,
         arr[p] is now at right place */
-    let pi = partition2(arr, low, high, changeOrder);
+    let pi = partition(arr, low, high, changeOrder);
     // Separately sort elements before
     // partition and after partition
     quickSort(arr, low, pi - 1, changeOrder);
