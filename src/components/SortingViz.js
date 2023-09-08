@@ -250,7 +250,7 @@ const SortingViz = () => {
       </div>
       <div className="button-field">
         <button
-          className="button"
+          className="button generate-array"
           disabled={isDisabled}
           onClick={() => setOriginalArray(makeNewArray(size))}
         >

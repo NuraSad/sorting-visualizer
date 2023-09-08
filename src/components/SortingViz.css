@@ -14,11 +14,11 @@
 }
 
 .button-field {
+  width: 60vw;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  box-sizing: content-box;
 }
 
 .array-bar {
@@ -69,4 +69,8 @@
 .button:not(:disabled):hover {
   box-shadow: rgba(0, 1, 0, 0.2) 0 2px 8px;
   opacity: 0.85;
+}
+
+.generate-array {
+  margin-right: 15%;
 }
