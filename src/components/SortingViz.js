@@ -37,13 +37,6 @@ const SortingViz = () => {
     return new Promise((resolve) => setTimeout(resolve, delay));
   };
 
-  useEffect(() => {
-    const ele = document.querySelector(".buble");
-    if (ele) {
-      ele.style.left = `${Number(speed / 4)}px`;
-    }
-  }, [speed]);
-
   const mergeSort = (array, delay) => {
     setIsDisabled(true);
     const changeOrder = getMergeSortArray(array);
@@ -185,7 +178,6 @@ const SortingViz = () => {
         let idx = changeOrder[i][0];
         arrayBars[idx].style.backgroundColor = SORTED_COLOR;
         await timer(delay);
-        continue;
       } else {
         let firstIdx = changeOrder[i][0];
         let secondIdx = changeOrder[i][1];
@@ -259,23 +251,24 @@ const SortingViz = () => {
       </div>
       <div className="button-field">
         <button
-          className="button generate-array"
+          className="button"
           disabled={isDisabled}
           onClick={() => setOriginalArray(makeNewArray(size))}
         >
           Generate new Array
         </button>
         <div className="slider-parent">
+          <label className="bubble">Speed: {speed} ms</label>
           <input
             type="range"
             min="1"
             max="500"
             value={speed}
+            disabled={isDisabled}
             onChange={(e) => {
               setSpeed(e.target.value);
             }}
           />
-          <div className="buble">{speed} ms</div>
         </div>
         <button
           className="button"
