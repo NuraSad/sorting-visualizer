@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import getMergeSortArray from "../Algorithms/MergeAlgorithm";
 import quickSort from "../Algorithms/QuickSortAlgorithm";
 import heapSort from "../Algorithms/HeapSortAlgotithm";
@@ -16,7 +16,6 @@ const SortingViz = () => {
   const [PRIMARY_COLOR, setPrimaryColor] = useState(INITIAL_COLOR);
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(100);
-  const delay = 100;
 
   const makeNewArray = (size) => {
     setPrimaryColor(INITIAL_COLOR);
@@ -273,28 +272,28 @@ const SortingViz = () => {
         <button
           className="button"
           disabled={isDisabled}
-          onClick={() => mergeSort(originalArray, delay)}
+          onClick={() => mergeSort(originalArray, speed)}
         >
           Merge Sort
         </button>
         <button
           className="button"
           disabled={isDisabled}
-          onClick={() => bubbleSort(originalArray, 5)}
+          onClick={() => bubbleSort(originalArray, speed)}
         >
           Bubble Sort
         </button>
         <button
           className="button"
           disabled={isDisabled}
-          onClick={() => startQuickSort(originalArray, delay)}
+          onClick={() => startQuickSort(originalArray, speed)}
         >
           Quick Sort
         </button>
         <button
           className="button"
           disabled={isDisabled}
-          onClick={() => heapSortAnimation(originalArray, delay)}
+          onClick={() => heapSortAnimation(originalArray, speed)}
         >
           Heap Sort
         </button>

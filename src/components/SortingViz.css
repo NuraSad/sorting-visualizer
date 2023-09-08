@@ -77,9 +77,10 @@
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 20px;
-  width: 6vw;
+  width: 8vw;
 }
 
 .bubble {
-  margin-right: 5px;
+  display: inline-block;
+  width: 8vw;
 }
