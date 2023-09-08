@@ -74,3 +74,11 @@
 .generate-array {
   margin-right: 15%;
 }
+
+.slider-parent {
+  position: relative;
+}
+
+.bubble {
+  position: absolute;
+}

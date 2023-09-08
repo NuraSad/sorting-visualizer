@@ -58,6 +58,8 @@ function quickSort(arr, low, high, changeOrder) {
     let pi = partition(arr, low, high, changeOrder);
     // Separately sort elements before
     // partition and after partition
+    if (pi === low + 1) changeOrder.push([low, low, "final"]);
+    if (pi === high - 1) changeOrder.push([high, high, "final"]);
     quickSort(arr, low, pi - 1, changeOrder);
     quickSort(arr, pi + 1, high, changeOrder);
   }

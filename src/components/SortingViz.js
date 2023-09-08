@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import getMergeSortArray from "../Algorithms/MergeAlgorithm";
 import quickSort from "../Algorithms/QuickSortAlgorithm";
 import heapSort from "../Algorithms/HeapSortAlgotithm";
@@ -15,6 +15,7 @@ const SortingViz = () => {
   const [originalArray, setOriginalArray] = useState([]);
   const [PRIMARY_COLOR, setPrimaryColor] = useState(INITIAL_COLOR);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [speed, setSpeed] = useState(100);
   const delay = 100;
 
   const makeNewArray = (size) => {
@@ -35,6 +36,13 @@ const SortingViz = () => {
   const timer = (delay) => {
     return new Promise((resolve) => setTimeout(resolve, delay));
   };
+
+  useEffect(() => {
+    const ele = document.querySelector(".buble");
+    if (ele) {
+      ele.style.left = `${Number(speed / 4)}px`;
+    }
+  }, [speed]);
 
   const mergeSort = (array, delay) => {
     setIsDisabled(true);
@@ -139,7 +147,6 @@ const SortingViz = () => {
     const high = arr.length - 1;
     const changeOrder = [];
     quickSort(arr, low, high, changeOrder);
-    const sortedBars = [];
 
     for (let i = 0; i < changeOrder.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
@@ -148,8 +155,8 @@ const SortingViz = () => {
         let firstIdx = changeOrder[i][0];
         let secondIdx = changeOrder[i][1];
         if (firstIdx === secondIdx) {
-          sortedBars.push(firstIdx);
           arrayBars[firstIdx].style.backgroundColor = SORTED_COLOR;
+          await timer(delay);
           continue;
         }
         arrayBars[firstIdx].style.backgroundColor = SWAP_COLOR;
@@ -157,9 +164,9 @@ const SortingViz = () => {
         let temp = arrOrg[firstIdx];
         arrOrg[firstIdx] = arrOrg[secondIdx];
         arrOrg[secondIdx] = temp;
-        sortedBars.push(firstIdx);
         setOriginalArray([...arrOrg]);
         await timer(delay);
+        arrayBars[firstIdx].style.backgroundColor = SORTED_COLOR;
         arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
       } else if (changeOrder[i][2] === "swap") {
         let firstIdx = changeOrder[i][0];
@@ -174,6 +181,11 @@ const SortingViz = () => {
         await timer(delay);
         arrayBars[firstIdx].style.backgroundColor = PRIMARY_COLOR;
         arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
+      } else if (changeOrder[i][2] === "final") {
+        let idx = changeOrder[i][0];
+        arrayBars[idx].style.backgroundColor = SORTED_COLOR;
+        await timer(delay);
+        continue;
       } else {
         let firstIdx = changeOrder[i][0];
         let secondIdx = changeOrder[i][1];
@@ -182,9 +194,6 @@ const SortingViz = () => {
         await timer(delay);
         arrayBars[firstIdx].style.backgroundColor = PRIMARY_COLOR;
         arrayBars[secondIdx].style.backgroundColor = PIVOT_COLOR;
-      }
-      for (let k = 0; k < sortedBars.length; k++) {
-        arrayBars[sortedBars[k]].style.backgroundColor = SORTED_COLOR;
       }
     }
     setPrimaryColor(SORTED_COLOR);
@@ -256,6 +265,18 @@ const SortingViz = () => {
         >
           Generate new Array
         </button>
+        <div className="slider-parent">
+          <input
+            type="range"
+            min="1"
+            max="500"
+            value={speed}
+            onChange={(e) => {
+              setSpeed(e.target.value);
+            }}
+          />
+          <div className="buble">{speed} ms</div>
+        </div>
         <button
           className="button"
           disabled={isDisabled}
