@@ -16,8 +16,10 @@ const SortingViz = () => {
   const [PRIMARY_COLOR, setPrimaryColor] = useState(INITIAL_COLOR);
   const [isDisabled, setIsDisabled] = useState(false);
   const [speed, setSpeed] = useState(100);
+  const [clickedButton, setClickedButton] = useState(null);
 
   const makeNewArray = (size) => {
+    setClickedButton(null);
     setPrimaryColor(INITIAL_COLOR);
     const array = [];
     const minNum = 5;
@@ -37,6 +39,7 @@ const SortingViz = () => {
   };
 
   const mergeSort = (array, delay) => {
+    setClickedButton("merge");
     setIsDisabled(true);
     const changeOrder = getMergeSortArray(array);
     mergeSortAnimation(changeOrder, delay);
@@ -73,6 +76,7 @@ const SortingViz = () => {
 
   //   have to left in this file because sorting happens on original array
   const bubbleSort = async (array, delay) => {
+    setClickedButton("bubble");
     setIsDisabled(true);
     for (let i = array.length; i > 0; i--) {
       let sorted = false;
@@ -103,37 +107,9 @@ const SortingViz = () => {
     setIsDisabled(false);
   };
 
-  //   const startQuickSort2 = async (arrOrg, delay) => {
-  //     setIsDisabled(true);
-  //     const arr = arrOrg.slice();
-  //     const low = 0;
-  //     const high = arr.length - 1;
-  //     const changeOrder = [];
-  //     quickSort(arr, low, high, changeOrder);
-  //     console.log(arrOrg, changeOrder);
-  //     for (let i = 0; i < changeOrder.length; i++) {
-  //       const arrayBars = document.getElementsByClassName("array-bar");
-  //       let firstIdx = changeOrder[i][0];
-  //       let secondIdx = changeOrder[i][1];
-  //       let pivotBarIdx = changeOrder[i][2];
-  //       arrayBars[firstIdx].style.backgroundColor = COMPARISON_COLOR;
-  //       arrayBars[secondIdx].style.backgroundColor = COMPARISON_COLOR;
-  //       arrayBars[pivotBarIdx].style.backgroundColor = PIVOT_COLOR;
-  //       let temp = arrOrg[firstIdx];
-  //       arrOrg[firstIdx] = arrOrg[secondIdx];
-  //       arrOrg[secondIdx] = temp;
-  //       setOriginalArray([...arrOrg]);
-  //       await timer(delay);
-  //       arrayBars[pivotBarIdx].style.backgroundColor = PRIMARY_COLOR;
-  //       arrayBars[firstIdx].style.backgroundColor = PRIMARY_COLOR;
-  //       arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
-  //     }
-  //     setPrimaryColor(SORTED_COLOR);
-  //     setIsDisabled(false);
-  //   };
-
   const startQuickSort = async (arrOrg, delay) => {
     setIsDisabled(true);
+    setClickedButton("quick");
     const arr = arrOrg.slice();
     const low = 0;
     const high = arr.length - 1;
@@ -193,6 +169,7 @@ const SortingViz = () => {
 
   const heapSortAnimation = async (arrOrg, delay) => {
     setIsDisabled(true);
+    setClickedButton("heap");
     const arr = arrOrg.slice();
     const changeOrder = heapSort(arr);
     console.log(arrOrg, changeOrder);
@@ -257,7 +234,7 @@ const SortingViz = () => {
           Generate new Array
         </button>
         <div className="slider-parent">
-          <label className="bubble">Speed: {speed} ms</label>
+          <label className="speedLabel">Speed: {speed} ms</label>
           <input
             type="range"
             min="1"
@@ -270,28 +247,28 @@ const SortingViz = () => {
           />
         </div>
         <button
-          className="button"
+          className={clickedButton === "merge" ? "button clicked" : "button"}
           disabled={isDisabled}
           onClick={() => mergeSort(originalArray, speed)}
         >
           Merge Sort
         </button>
         <button
-          className="button"
+          className={clickedButton === "bubble" ? "button clicked" : "button"}
           disabled={isDisabled}
           onClick={() => bubbleSort(originalArray, speed)}
         >
           Bubble Sort
         </button>
         <button
-          className="button"
+          className={clickedButton === "quick" ? "button clicked" : "button"}
           disabled={isDisabled}
           onClick={() => startQuickSort(originalArray, speed)}
         >
           Quick Sort
         </button>
         <button
-          className="button"
+          className={clickedButton === "heap" ? "button clicked" : "button"}
           disabled={isDisabled}
           onClick={() => heapSortAnimation(originalArray, speed)}
         >
@@ -303,3 +280,32 @@ const SortingViz = () => {
 };
 
 export default SortingViz;
+
+//   const startQuickSort2 = async (arrOrg, delay) => {
+//     setIsDisabled(true);
+//     const arr = arrOrg.slice();
+//     const low = 0;
+//     const high = arr.length - 1;
+//     const changeOrder = [];
+//     quickSort(arr, low, high, changeOrder);
+//     console.log(arrOrg, changeOrder);
+//     for (let i = 0; i < changeOrder.length; i++) {
+//       const arrayBars = document.getElementsByClassName("array-bar");
+//       let firstIdx = changeOrder[i][0];
+//       let secondIdx = changeOrder[i][1];
+//       let pivotBarIdx = changeOrder[i][2];
+//       arrayBars[firstIdx].style.backgroundColor = COMPARISON_COLOR;
+//       arrayBars[secondIdx].style.backgroundColor = COMPARISON_COLOR;
+//       arrayBars[pivotBarIdx].style.backgroundColor = PIVOT_COLOR;
+//       let temp = arrOrg[firstIdx];
+//       arrOrg[firstIdx] = arrOrg[secondIdx];
+//       arrOrg[secondIdx] = temp;
+//       setOriginalArray([...arrOrg]);
+//       await timer(delay);
+//       arrayBars[pivotBarIdx].style.backgroundColor = PRIMARY_COLOR;
+//       arrayBars[firstIdx].style.backgroundColor = PRIMARY_COLOR;
+//       arrayBars[secondIdx].style.backgroundColor = PRIMARY_COLOR;
+//     }
+//     setPrimaryColor(SORTED_COLOR);
+//     setIsDisabled(false);
+//   };

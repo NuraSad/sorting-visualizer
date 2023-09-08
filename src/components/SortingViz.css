@@ -80,7 +80,11 @@
   width: 8vw;
 }
 
-.bubble {
+.clicked {
+  border: 2px solid red;
+}
+
+.speedLabel {
   display: inline-block;
   width: 8vw;
 }
