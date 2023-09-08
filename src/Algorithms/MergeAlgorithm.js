@@ -7,6 +7,7 @@ function getMergeSortArray(arrayOrg) {
 }
 
 function sortAndMergeArrays(arr, l, m, r, changeOrder) {
+  let final = l === 0 && r === arr.length - 1 ? true : false;
   let i = l;
   let j = m + 1;
   while (i <= r) {
@@ -18,10 +19,10 @@ function sortAndMergeArrays(arr, l, m, r, changeOrder) {
       let insertVal = arr[j];
       arr.splice(j, 1);
       arr.splice(i, 0, insertVal);
-      changeOrder.push([i, j, !swap]);
+      changeOrder.push([i, j, !swap, final]);
       j++;
     } else {
-      changeOrder.push([i, j, swap]);
+      changeOrder.push([i, j, swap, final]);
     }
     i++;
   }

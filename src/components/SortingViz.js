@@ -51,25 +51,29 @@ const SortingViz = () => {
       const firstBar = changeOrder[i][0];
       const secondBar = changeOrder[i][1];
       const insert = changeOrder[i][2];
+      const final = changeOrder[i][3];
       if (firstBar === secondBar) {
+        if (final) arrayBars[firstBar].style.backgroundColor = SORTED_COLOR;
         continue;
       }
       arrayBars[firstBar].style.backgroundColor = COMPARISON_COLOR;
       arrayBars[secondBar].style.backgroundColor = COMPARISON_COLOR;
-      await timer(delay);
       //think how to make insert better or redo whole merge sort algor.
+      await timer(delay);
       if (insert) {
         const insertVal = originalArray[secondBar];
         originalArray.splice(secondBar, 1);
         originalArray.splice(firstBar, 0, insertVal);
         arrayBars[secondBar].style.backgroundColor = PRIMARY_COLOR;
       }
-      setOriginalArray([...originalArray]);
-      // Wait delay amount in ms before continuing, give browser time to render last update
-      await timer(delay);
-      arrayBars[firstBar].style.backgroundColor = PRIMARY_COLOR;
+      arrayBars[firstBar].style.backgroundColor = final
+        ? SORTED_COLOR
+        : PRIMARY_COLOR;
       arrayBars[secondBar].style.backgroundColor = PRIMARY_COLOR;
+      setOriginalArray([...originalArray]);
     }
+    setOriginalArray([...originalArray]);
+    // Wait delay amount in ms before continuing, give browser time to render last update
     setPrimaryColor(SORTED_COLOR);
     setIsDisabled(false);
   };
